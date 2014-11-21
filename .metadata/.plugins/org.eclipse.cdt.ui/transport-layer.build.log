@@ -1,0 +1,32 @@
+16:02:11 **** Incremental Build of configuration Debug for project transport-layer ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+../main.c: In function ‘main’:
+../main.c:13:2: warning: implicit declaration of function ‘system’ [-Wimplicit-function-declaration]
+  system("pause");
+  ^
+In file included from ../main.c:9:0:
+../main.c: At top level:
+../transport.h:11:13: warning: ‘my_printing’ declared ‘static’ but never defined [-Wunused-function]
+ static void my_printing(void);
+             ^
+Finished building: ../main.c
+ 
+Building file: ../transport.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"transport.d" -MT"transport.d" -o "transport.o" "../transport.c"
+../transport.c:12:6: warning: ‘my_printing’ defined but not used [-Wunused-function]
+ void my_printing(void){
+      ^
+Finished building: ../transport.c
+ 
+Building target: transport-layer
+Invoking: GCC C Linker
+gcc  -o "transport-layer"  ./application.o ./main.o ./transport.o   
+Finished building target: transport-layer
+ 
+
+16:02:12 Build Finished (took 166ms)
+

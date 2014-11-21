@@ -1,0 +1,13 @@
+11:22:27 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c: In function ‘main’:
+../main_a.c:92:7: error: dereferencing pointer to incomplete type
+    eth->
+       ^
+make: *** [main_a.o] Error 1
+
+11:22:28 Build Finished (took 249ms)
+

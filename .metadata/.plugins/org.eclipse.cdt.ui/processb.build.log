@@ -1,0 +1,15 @@
+19:16:59 **** Incremental Build of configuration Debug for project processb ****
+make all 
+Building file: ../main_b.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_b.d" -MT"main_b.d" -o "main_b.o" "../main_b.c"
+Finished building: ../main_b.c
+ 
+Building target: processb
+Invoking: GCC C Linker
+gcc  -o "processb"  ./main_b.o   
+Finished building target: processb
+ 
+
+19:16:59 Build Finished (took 186ms)
+

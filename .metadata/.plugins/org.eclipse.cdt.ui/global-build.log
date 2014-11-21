@@ -1,0 +1,664 @@
+22:58:22 **** Build of configuration Debug for project TcpOverUdp ****
+make all 
+Building file: ../transport/transport.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"transport/transport.d" -MT"transport/transport.d" -o "transport/transport.o" "../transport/transport.c"
+In file included from ../transport/transport.c:8:0:
+../transport/transport.h:14:3: warning: data definition has no type or storage class [enabled by default]
+ };instance1;
+   ^
+../transport/transport.h:14:3: warning: type defaults to ‘int’ in declaration of ‘instance1’ [-Wimplicit-int]
+Finished building: ../transport/transport.c
+ 
+Building file: ../application/application.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"application/application.d" -MT"application/application.d" -o "application/application.o" "../application/application.c"
+Finished building: ../application/application.c
+ 
+Building file: ../process-a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"process-a.d" -MT"process-a.d" -o "process-a.o" "../process-a.c"
+Finished building: ../process-a.c
+ 
+Building file: ../process-b.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"process-b.d" -MT"process-b.d" -o "process-b.o" "../process-b.c"
+Finished building: ../process-b.c
+ 
+Building file: ../process-c.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"process-c.d" -MT"process-c.d" -o "process-c.o" "../process-c.c"
+Finished building: ../process-c.c
+ 
+Building target: TcpOverUdp
+Invoking: GCC C Linker
+gcc  -o "TcpOverUdp"  ./transport/transport.o  ./application/application.o  ./process-a.o ./process-b.o ./process-c.o   
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 0 has invalid symbol index 11
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 1 has invalid symbol index 12
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 2 has invalid symbol index 2
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 3 has invalid symbol index 2
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 4 has invalid symbol index 11
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 5 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 6 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 7 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 8 has invalid symbol index 12
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 9 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 10 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 11 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 12 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 13 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 14 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 15 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 16 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 17 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 18 has invalid symbol index 13
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_info): relocation 19 has invalid symbol index 21
+/usr/bin/ld: /usr/lib/debug/usr/lib/x86_64-linux-gnu/crt1.o(.debug_line): relocation 0 has invalid symbol index 2
+/usr/lib/gcc/x86_64-linux-gnu/4.8/../../../x86_64-linux-gnu/crt1.o: In function `_start':
+(.text+0x20): undefined reference to `main'
+collect2: error: ld returned 1 exit status
+make: *** [TcpOverUdp] Error 1
+11:00:26 **** Incremental Build of configuration Debug for project TcpOverUdp ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+../main.c:8:6: warning: return type of ‘main’ is not ‘int’ [-Wmain]
+ void main(){
+      ^
+../main.c: In function ‘main’:
+../main.c:9:2: warning: implicit declaration of function ‘printf’ [-Wimplicit-function-declaration]
+  printf("Tana linda!!");
+  ^
+../main.c:9:2: warning: incompatible implicit declaration of built-in function ‘printf’ [enabled by default]
+Finished building: ../main.c
+ 
+Building target: TcpOverUdp
+Invoking: GCC C Linker
+gcc  -o "TcpOverUdp"  ./transport/transport.o  ./application/application.o  ./main.o ./process-a.o ./process-b.o ./process-c.o   
+Finished building target: TcpOverUdp
+ 
+11:01:26 **** Incremental Build of configuration Debug for project TcpOverUdp ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+../main.c:11:6: warning: return type of ‘main’ is not ‘int’ [-Wmain]
+ void main(){
+      ^
+Finished building: ../main.c
+ 
+Building target: TcpOverUdp
+Invoking: GCC C Linker
+gcc  -o "TcpOverUdp"  ./transport/transport.o  ./application/application.o  ./main.o ./process-a.o ./process-b.o ./process-c.o   
+Finished building target: TcpOverUdp
+ 
+11:01:44 **** Incremental Build of configuration Debug for project TcpOverUdp ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+Finished building: ../main.c
+ 
+Building target: TcpOverUdp
+Invoking: GCC C Linker
+gcc  -o "TcpOverUdp"  ./transport/transport.o  ./application/application.o  ./main.o ./process-a.o ./process-b.o ./process-c.o   
+Finished building target: TcpOverUdp
+ 
+11:02:05 **** Incremental Build of configuration Debug for project TcpOverUdp ****
+make all 
+make: Nothing to be done for `all'.
+11:02:44 **** Incremental Build of configuration Debug for project TcpOverUdp ****
+make all 
+make: Nothing to be done for `all'.
+11:10:42 **** Incremental Build of configuration Debug for project TcpOverUdp ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+Finished building: ../main.c
+ 
+Building target: TcpOverUdp
+Invoking: GCC C Linker
+gcc  -o "TcpOverUdp"  ./transport/transport.o  ./application/application.o  ./main.o ./process-a.o ./process-b.o ./process-c.o   
+Finished building target: TcpOverUdp
+ 
+11:53:39 **** Build of configuration Debug for project process-a ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+../main.c: In function ‘main’:
+../main.c:11:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+Finished building: ../main.c
+ 
+Building target: process-a
+Invoking: GCC C Linker
+gcc  -o "process-a"  ./main.o   
+Finished building target: process-a
+ 
+15:41:59 **** Incremental Build of configuration Debug for project process-a ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+Finished building: ../main.c
+ 
+Building target: process-a
+Invoking: GCC C Linker
+gcc  -o "process-a"  ./main.o   
+./main.o: In function `main':
+/home/caio/Projects/redes/process-a/Debug/../main.c:15: undefined reference to `print_my'
+collect2: error: ld returned 1 exit status
+make: *** [process-a] Error 1
+15:45:40 **** Incremental Build of configuration Debug for project process-a ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+Finished building: ../main.c
+ 
+Building target: process-a
+Invoking: GCC C Linker
+gcc  -o "process-a"  ./main.o   
+./main.o: In function `main':
+/home/caio/Projects/redes/process-a/Debug/../main.c:15: undefined reference to `print_my'
+collect2: error: ld returned 1 exit status
+make: *** [process-a] Error 1
+15:47:14 **** Incremental Build of configuration Debug for project TcpOverUdp ****
+make all 
+Building file: ../transport/transport.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"transport/transport.d" -MT"transport/transport.d" -o "transport/transport.o" "../transport/transport.c"
+In file included from ../transport/transport.c:8:0:
+../transport/transport.h:14:3: warning: data definition has no type or storage class [enabled by default]
+ };instance1;
+   ^
+../transport/transport.h:14:3: warning: type defaults to ‘int’ in declaration of ‘instance1’ [-Wimplicit-int]
+Finished building: ../transport/transport.c
+ 
+Building file: ../application/application.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"application/application.d" -MT"application/application.d" -o "application/application.o" "../application/application.c"
+Finished building: ../application/application.c
+ 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+../main.c: In function ‘main’:
+../main.c:19:2: warning: implicit declaration of function ‘print_my’ [-Wimplicit-function-declaration]
+  print_my();
+  ^
+Finished building: ../main.c
+ 
+Building file: ../process-a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"process-a.d" -MT"process-a.d" -o "process-a.o" "../process-a.c"
+Finished building: ../process-a.c
+ 
+Building file: ../process-b.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"process-b.d" -MT"process-b.d" -o "process-b.o" "../process-b.c"
+Finished building: ../process-b.c
+ 
+Building file: ../process-c.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"process-c.d" -MT"process-c.d" -o "process-c.o" "../process-c.c"
+Finished building: ../process-c.c
+ 
+Building target: TcpOverUdp
+Invoking: GCC C Linker
+gcc  -o "TcpOverUdp"  ./transport/transport.o  ./application/application.o  ./main.o ./process-a.o ./process-b.o ./process-c.o   
+Finished building target: TcpOverUdp
+ 
+16:01:09 **** Build of configuration Debug for project transport-layer ****
+make all 
+Building file: ../application.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"application.d" -MT"application.d" -o "application.o" "../application.c"
+Finished building: ../application.c
+ 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+../main.c: In function ‘main’:
+../main.c:12:2: warning: implicit declaration of function ‘system’ [-Wimplicit-function-declaration]
+  system("pause");
+  ^
+In file included from ../main.c:9:0:
+../main.c: At top level:
+../transport.h:11:13: warning: ‘my_printing’ declared ‘static’ but never defined [-Wunused-function]
+ static void my_printing(void);
+             ^
+Finished building: ../main.c
+ 
+Building file: ../transport.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"transport.d" -MT"transport.d" -o "transport.o" "../transport.c"
+../transport.c: In function ‘my_printing’:
+../transport.c:12:2: warning: implicit declaration of function ‘printf’ [-Wimplicit-function-declaration]
+  printf("HELLO CAIO, WELL DONE\n");
+  ^
+../transport.c:12:2: warning: incompatible implicit declaration of built-in function ‘printf’ [enabled by default]
+../transport.c: At top level:
+../transport.c:11:6: warning: ‘my_printing’ defined but not used [-Wunused-function]
+ void my_printing(void){
+      ^
+Finished building: ../transport.c
+ 
+Building target: transport-layer
+Invoking: GCC C Linker
+gcc  -o "transport-layer"  ./application.o ./main.o ./transport.o   
+Finished building target: transport-layer
+ 
+16:02:11 **** Incremental Build of configuration Debug for project transport-layer ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+../main.c: In function ‘main’:
+../main.c:13:2: warning: implicit declaration of function ‘system’ [-Wimplicit-function-declaration]
+  system("pause");
+  ^
+In file included from ../main.c:9:0:
+../main.c: At top level:
+../transport.h:11:13: warning: ‘my_printing’ declared ‘static’ but never defined [-Wunused-function]
+ static void my_printing(void);
+             ^
+Finished building: ../main.c
+ 
+Building file: ../transport.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"transport.d" -MT"transport.d" -o "transport.o" "../transport.c"
+../transport.c:12:6: warning: ‘my_printing’ defined but not used [-Wunused-function]
+ void my_printing(void){
+      ^
+Finished building: ../transport.c
+ 
+Building target: transport-layer
+Invoking: GCC C Linker
+gcc  -o "transport-layer"  ./application.o ./main.o ./transport.o   
+Finished building target: transport-layer
+ 
+16:04:55 **** Incremental Build of configuration Debug for project process-a ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+../main.c: In function ‘main’:
+../main.c:15:2: warning: implicit declaration of function ‘my_printing’ [-Wimplicit-function-declaration]
+  my_printing();
+  ^
+In file included from ../main.c:8:0:
+../main.c: At top level:
+/usr/include/transport.h:18:13: warning: ‘print_my’ declared ‘static’ but never defined [-Wunused-function]
+ static void print_my();
+             ^
+Finished building: ../main.c
+ 
+Building target: process-a
+Invoking: GCC C Linker
+gcc  -o "process-a"  ./main.o   
+./main.o: In function `main':
+/home/caio/Projects/redes/process-a/Debug/../main.c:15: undefined reference to `my_printing'
+collect2: error: ld returned 1 exit status
+make: *** [process-a] Error 1
+16:18:13 **** Build of configuration Debug for project caa-lib ****
+make all 
+Building file: ../src/caa-lib.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/caa-lib.d" -MT"src/caa-lib.d" -o "src/caa-lib.o" "../src/caa-lib.c"
+Finished building: ../src/caa-lib.c
+ 
+Building target: caa-lib
+Invoking: GCC C Linker
+gcc  -o "caa-lib"  ./src/caa-lib.o   
+Finished building target: caa-lib
+ 
+16:24:23 **** Build of configuration Debug for project teste ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+Finished building: ../main.c
+ 
+Building target: teste
+Invoking: GCC C Linker
+gcc  -o "teste"  ./main.o   
+./main.o: In function `main':
+/home/caio/Projects/redes/teste/Debug/../main.c:12: undefined reference to `test2'
+collect2: error: ld returned 1 exit status
+make: *** [teste] Error 1
+16:26:09 **** Incremental Build of configuration Debug for project teste ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+Finished building: ../main.c
+ 
+Building target: teste
+Invoking: GCC C Linker
+gcc  -o "teste"  ./main.o   
+./main.o: In function `main':
+/home/caio/Projects/redes/teste/Debug/../main.c:12: undefined reference to `test'
+/home/caio/Projects/redes/teste/Debug/../main.c:13: undefined reference to `test2'
+collect2: error: ld returned 1 exit status
+make: *** [teste] Error 1
+19:08:05 **** Build of configuration Debug for project processb ****
+make all 
+Building file: ../main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.c"
+Finished building: ../main.c
+ 
+Building target: processb
+Invoking: GCC C Linker
+gcc  -o "processb"  ./main.o   
+Finished building target: processb
+ 
+19:08:40 **** Incremental Build of configuration Debug for project processb ****
+make all 
+make: Nothing to be done for `all'.
+19:11:06 **** Incremental Build of configuration Debug for project processb ****
+make all 
+Building file: ../main_b.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_b.d" -MT"main_b.d" -o "main_b.o" "../main_b.c"
+Finished building: ../main_b.c
+ 
+Building target: processb
+Invoking: GCC C Linker
+gcc  -o "processb"  ./main_b.o   
+Finished building target: processb
+ 
+19:12:22 **** Incremental Build of configuration Debug for project processb ****
+make all 
+make: Nothing to be done for `all'.
+19:15:50 **** Incremental Build of configuration Debug for project processb ****
+make all 
+Building file: ../main_b.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_b.d" -MT"main_b.d" -o "main_b.o" "../main_b.c"
+Finished building: ../main_b.c
+ 
+Building target: processb
+Invoking: GCC C Linker
+gcc  -o "processb"  ./main_b.o   
+Finished building target: processb
+ 
+19:16:59 **** Incremental Build of configuration Debug for project processb ****
+make all 
+Building file: ../main_b.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_b.d" -MT"main_b.d" -o "main_b.o" "../main_b.c"
+Finished building: ../main_b.c
+ 
+Building target: processb
+Invoking: GCC C Linker
+gcc  -o "processb"  ./main_b.o   
+Finished building target: processb
+ 
+09:36:51 **** Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+Finished building: ../main_a.c
+ 
+Building target: processa
+Invoking: GCC C Linker
+gcc  -o "processa"  ./main_a.o   
+Finished building target: processa
+ 
+09:41:24 **** Build of configuration Debug for project processc ****
+make all 
+Building file: ../main_c.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_c.d" -MT"main_c.d" -o "main_c.o" "../main_c.c"
+Finished building: ../main_c.c
+ 
+Building target: processc
+Invoking: GCC C Linker
+gcc  -o "processc"  ./main_c.o   
+Finished building target: processc
+ 
+20:06:21 **** Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c:18:19: fatal error: frame.h: No such file or directory
+ #include <frame.h>
+                   ^
+compilation terminated.
+make: *** [main_a.o] Error 1
+20:07:25 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+Finished building: ../main_a.c
+ 
+Building target: processa
+Invoking: GCC C Linker
+gcc  -o "processa"  ./main_a.o   
+Finished building target: processa
+ 
+21:59:21 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+Finished building: ../main_a.c
+ 
+Building target: processa
+Invoking: GCC C Linker
+gcc  -o "processa"  ./main_a.o   
+Finished building target: processa
+ 
+21:59:59 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+Finished building: ../main_a.c
+ 
+Building target: processa
+Invoking: GCC C Linker
+gcc  -o "processa"  ./main_a.o   
+Finished building target: processa
+ 
+22:01:33 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+Finished building: ../main_a.c
+ 
+Building target: processa
+Invoking: GCC C Linker
+gcc  -o "processa"  ./main_a.o   
+Finished building target: processa
+ 
+22:12:49 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c: In function ‘send_message’:
+../main_a.c:65:2: warning: statement with no effect [-Wunused-value]
+  packet pkt;
+  ^
+../main_a.c:65:9: error: expected ‘;’ before ‘pkt’
+  packet pkt;
+         ^
+../main_a.c:66:2: error: ‘pkt’ undeclared (first use in this function)
+  pkt->source_port = port;
+  ^
+../main_a.c:66:2: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [main_a.o] Error 1
+22:13:15 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c: In function ‘send_message’:
+../main_a.c:65:2: error: unknown type name ‘packet_struct’
+  packet_struct pkt;
+  ^
+../main_a.c:66:5: error: invalid type argument of ‘->’ (have ‘int’)
+  pkt->source_port = port;
+     ^
+make: *** [main_a.o] Error 1
+22:36:29 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c: In function ‘assemblePkt’:
+../main_a.c:45:18: warning: assignment makes integer from pointer without a cast [enabled by default]
+  pkt.source_port = myPort;
+                  ^
+../main_a.c:50:2: warning: statement with no effect [-Wunused-value]
+  pkt.flag_ack;
+  ^
+../main_a.c:57:11: error: incompatible types when assigning to type ‘char[256]’ from type ‘char *’
+  pkt.data = data;
+           ^
+../main_a.c: In function ‘main’:
+../main_a.c:89:58: error: ‘o’ undeclared (first use in this function)
+    TcpPacket msg = assemblePkt(5524, 1, 0, 222, 0, 0, 0, o, 1, 0, "hahahahahhahaha");
+                                                          ^
+../main_a.c:89:58: note: each undeclared identifier is reported only once for each function it appears in
+../main_a.c:91:13: error: incompatible type for argument 1 of ‘strlen’
+             strlen(msg),0,(const struct sockaddr *)&server,length);
+             ^
+In file included from ../main_a.c:17:0:
+/usr/include/string.h:399:15: note: expected ‘const char *’ but argument is of type ‘TcpPacket’
+ extern size_t strlen (const char *__s)
+               ^
+../main_a.c:91:41: error: incompatible type for argument 2 of ‘sendto’
+             strlen(msg),0,(const struct sockaddr *)&server,length);
+                                         ^
+In file included from ../main_a.c:10:0:
+/usr/include/x86_64-linux-gnu/sys/socket.h:163:16: note: expected ‘const void *’ but argument is of type ‘TcpPacket’
+ extern ssize_t sendto (int __fd, const void *__buf, size_t __n,
+                ^
+make: *** [main_a.o] Error 1
+09:44:35 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c: In function ‘assemblePkt’:
+../main_a.c:45:20: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  pkt.source_port = (int)myPort;
+                    ^
+../main_a.c:56:11: error: incompatible types when assigning to type ‘char[256]’ from type ‘char *’
+  pkt.data = data;
+           ^
+../main_a.c: In function ‘main’:
+../main_a.c:89:4: error: unknown type name ‘str’
+    str
+    ^
+../main_a.c:90:4: error: redeclaration of ‘n’ with no linkage
+    n=sendto(sock,msg,
+    ^
+../main_a.c:62:14: note: previous declaration of ‘n’ was here
+    int sock, n;
+              ^
+../main_a.c:91:13: error: incompatible type for argument 1 of ‘strlen’
+             strlen(msg),0,(const struct sockaddr *)&server,length);
+             ^
+In file included from ../main_a.c:17:0:
+/usr/include/string.h:399:15: note: expected ‘const char *’ but argument is of type ‘TcpPacket’
+ extern size_t strlen (const char *__s)
+               ^
+../main_a.c:91:41: error: incompatible type for argument 2 of ‘sendto’
+             strlen(msg),0,(const struct sockaddr *)&server,length);
+                                         ^
+In file included from ../main_a.c:10:0:
+/usr/include/x86_64-linux-gnu/sys/socket.h:163:16: note: expected ‘const void *’ but argument is of type ‘TcpPacket’
+ extern ssize_t sendto (int __fd, const void *__buf, size_t __n,
+                ^
+make: *** [main_a.o] Error 1
+09:45:11 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c: In function ‘assemblePkt’:
+../main_a.c:56:11: error: incompatible types when assigning to type ‘char[256]’ from type ‘char *’
+  pkt.data = data;
+           ^
+../main_a.c: In function ‘main’:
+../main_a.c:89:4: error: unknown type name ‘str’
+    str
+    ^
+../main_a.c:90:4: error: redeclaration of ‘n’ with no linkage
+    n=sendto(sock,msg,
+    ^
+../main_a.c:62:14: note: previous declaration of ‘n’ was here
+    int sock, n;
+              ^
+../main_a.c:91:13: error: incompatible type for argument 1 of ‘strlen’
+             strlen(msg),0,(const struct sockaddr *)&server,length);
+             ^
+In file included from ../main_a.c:17:0:
+/usr/include/string.h:399:15: note: expected ‘const char *’ but argument is of type ‘TcpPacket’
+ extern size_t strlen (const char *__s)
+               ^
+../main_a.c:91:41: error: incompatible type for argument 2 of ‘sendto’
+             strlen(msg),0,(const struct sockaddr *)&server,length);
+                                         ^
+In file included from ../main_a.c:10:0:
+/usr/include/x86_64-linux-gnu/sys/socket.h:163:16: note: expected ‘const void *’ but argument is of type ‘TcpPacket’
+ extern ssize_t sendto (int __fd, const void *__buf, size_t __n,
+                ^
+make: *** [main_a.o] Error 1
+11:19:31 **** Clean-only build of configuration Debug for project processa ****
+make clean 
+rm -rf  ./main_a.o  ./main_a.d  processa
+ 
+11:19:31 **** Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c:18:17: fatal error: tcp.h: No such file or directory
+ #include <tcp.h>
+                 ^
+compilation terminated.
+make: *** [main_a.o] Error 1
+11:21:12 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c:18:17: fatal error: tcp.h: No such file or directory
+ #include <tcp.h>
+                 ^
+compilation terminated.
+make: *** [main_a.o] Error 1
+11:22:13 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c:18:27: fatal error: transport/tcp.h: No such file or directory
+ #include <transport/tcp.h>
+                           ^
+compilation terminated.
+make: *** [main_a.o] Error 1
+11:22:27 **** Incremental Build of configuration Debug for project processa ****
+make all 
+Building file: ../main_a.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main_a.d" -MT"main_a.d" -o "main_a.o" "../main_a.c"
+../main_a.c: In function ‘main’:
+../main_a.c:92:7: error: dereferencing pointer to incomplete type
+    eth->
+       ^
+make: *** [main_a.o] Error 1
