@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;transport-layer/transport-layer.h&apos; to &apos;transport.h&apos;" description="Rename resource &apos;transport-layer.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="transport-layer.h" name="transport.h" stamp="1414864481302" updateReferences="true"/>
-</session>
