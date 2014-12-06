@@ -1,110 +1,143 @@
-/*
- * main.c
- *
- *  Created on: 2 Nov 2014
- *      Author: caio
- */
-
-#include <sys/types.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <netdb.h>
-#include <stdio.h>
+#include "transport/transport.h"
 
 
-void print_tcp_packet(unsigned char, int);
-
-void error(const char *msg)
-{
-    perror(strcat("Process B: ",msg));
-    exit(0);
-}
+void str_ser(int sockfd); // transmitting and receiving function
 
 int main(int argc, char *argv[])
 {
-   int sock, length, n;
-   socklen_t fromlen;
-   struct sockaddr_in server;
-   struct sockaddr_in from;
-   char buf[1024];
+    int sockfd;
+    struct sockaddr_in my_addr;
 
-   if (argc < 2) {
-      printf("Error, no port provided.\n");
-      exit(0);
-   }
+    //create socket
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
+        printf("error in socket\n");
+        exit(1);
+    }
 
-   sock=socket(AF_INET, SOCK_DGRAM, 0);
-   if (sock < 0) error("Opening socket");
-   length = sizeof(server);
-   bzero(&server,length);
-   server.sin_family=AF_INET;
-   server.sin_addr.s_addr=INADDR_ANY;
-   server.sin_port=htons(atoi(argv[1]));
-   if (bind(sock,(struct sockaddr *)&server,length)<0)
-       error("binding");
-   fromlen = sizeof(struct sockaddr_in);
-   while (1) {
-       n = recvfrom(sock,buf,1024,0,(struct sockaddr *)&from,&fromlen);
-       if (n < 0) error("recvfrom");
-       write(1,"Received a datagram: ",21);
-       write(1,buf,n);
-       n = sendto(sock,"Got your message\n",17,
-                  0,(struct sockaddr *)&from,fromlen);
-       if (n  < 0) error("sendto");
-   }
-   return 0;
- }
-/*
+    my_addr.sin_family = AF_INET; // Address family; must be AF_INET
+    my_addr.sin_port = htons(B_PORT); // Internet Protocol (IP) port.
+    my_addr.sin_addr.s_addr = INADDR_ANY; // IP address in network byte order. INADDR_ANY is 0.0.0.0 meaning "all the addr"
+    // places nbyte null bytes in the string s
+    // this function will be used to set all the socket structures with null values
+    bzero(&(my_addr.sin_zero), 8);
 
- void print_tcp_packet(unsigned char* Buffer, int Size)
-{
-    unsigned short iphdrlen;
-     
-    struct iphdr *iph = (struct iphdr *)( Buffer  + sizeof(struct ethhdr) );
-    iphdrlen = iph->ihl*4;
-     
-    struct tcphdr *tcph=(struct tcphdr*)(Buffer + iphdrlen + sizeof(struct ethhdr));
-             
-    int header_size =  sizeof(struct ethhdr) + iphdrlen + tcph->doff*4;
-     
-    fprintf(logfile , "\n\n***********************TCP Packet*************************\n"); 
-         
-    print_ip_header(Buffer,Size);
-         
-    fprintf(logfile , "\n");
-    fprintf(logfile , "TCP Header\n");
-    fprintf(logfile , "   |-Source Port      : %u\n",ntohs(tcph->source));
-    fprintf(logfile , "   |-Destination Port : %u\n",ntohs(tcph->dest));
-    fprintf(logfile , "   |-Sequence Number    : %u\n",ntohl(tcph->seq));
-    fprintf(logfile , "   |-Acknowledge Number : %u\n",ntohl(tcph->ack_seq));
-    fprintf(logfile , "   |-Header Length      : %d DWORDS or %d BYTES\n" ,(unsigned int)tcph->doff,(unsigned int)tcph->doff*4);
-    //fprintf(logfile , "   |-CWR Flag : %d\n",(unsigned int)tcph->cwr);
-    //fprintf(logfile , "   |-ECN Flag : %d\n",(unsigned int)tcph->ece);
-    fprintf(logfile , "   |-Urgent Flag          : %d\n",(unsigned int)tcph->urg);
-    fprintf(logfile , "   |-Acknowledgement Flag : %d\n",(unsigned int)tcph->ack);
-    fprintf(logfile , "   |-Push Flag            : %d\n",(unsigned int)tcph->psh);
-    fprintf(logfile , "   |-Reset Flag           : %d\n",(unsigned int)tcph->rst);
-    fprintf(logfile , "   |-Synchronise Flag     : %d\n",(unsigned int)tcph->syn);
-    fprintf(logfile , "   |-Finish Flag          : %d\n",(unsigned int)tcph->fin);
-    fprintf(logfile , "   |-Window         : %d\n",ntohs(tcph->window));
-    fprintf(logfile , "   |-Checksum       : %d\n",ntohs(tcph->check));
-    fprintf(logfile , "   |-Urgent Pointer : %d\n",tcph->urg_ptr);
-    fprintf(logfile , "\n");
-    fprintf(logfile , "                        DATA Dump                         ");
-    fprintf(logfile , "\n");
-         
-    fprintf(logfile , "IP Header\n");
-    PrintData(Buffer,iphdrlen);
-         
-    fprintf(logfile , "TCP Header\n");
-    PrintData(Buffer+iphdrlen,tcph->doff*4);
-         
-    fprintf(logfile , "Data Payload\n");   
-    PrintData(Buffer + header_size , Size - header_size );
-                         
-    fprintf(logfile , "\n###########################################################");
+    // binds the socket to all available interfaces
+    if (bind(sockfd, (struct sockaddr *) &my_addr, sizeof(struct sockaddr)) == -1) {
+        printf("error in binding\n");
+        perror("socket error");
+        exit(1);
+    }
+
+    // receive and ACK
+    str_ser(sockfd);
+
+    close(sockfd);
+    exit(0);
 }
-*/
+
+// transmitting and receiving function
+void str_ser(int sockfd)
+{   
+    FILE *fp;
+    char buf[BUFSIZE];
+    int end = 0, n = 0;
+    long lseek = 0;
+    struct ack_frame ack;
+    struct data_frame packet;
+
+    struct sockaddr_in addr;
+    socklen_t len = sizeof(struct sockaddr_in);
+
+    printf("Start receiving...\n");
+
+    srand(time(NULL)); // seed for random number
+    uint32_t prev_pkt_seq = 1;
+
+    while(!end)
+    {
+        /*************** RECEIVE MESSAGE ***************/
+        // if error in receiving
+        if ((n = recvfrom(sockfd, &packet, sizeof(packet), 0, (struct sockaddr *)&addr, &len)) == -1)
+        {
+            printf("Error when receiving\n");
+            exit(1);
+        }
+
+        // if nothing received
+        else if (n == 0)
+        {
+            printf("Nothing received\n");
+        }
+
+        // if something received
+        else
+        {
+            // random number 0-99
+            // ACK lost
+            // send ACK
+            if ((rand() % 100) > NO_ACK_RATE)
+            {
+                // tell sender what to expect next
+                if (packet.num == 0)
+                    ack.num = packet.len + 1;
+                else
+                    ack.num = packet.num + packet.len;
+                ack.len = packet.len;
+
+                // random number 0-99
+                // ACK damaged
+                // damage ACK by toggling ACK
+                /*
+                if ((rand() % 100) < WRONG_ACK_RATE)
+                {
+                    if (ack.num == 0)
+                        ack.num = 1;
+                    else
+                        ack.num = 0;
+                    printf("ACK damaged! ");
+                }
+                */
+
+                /*************** SEND ACK ***************/
+                if ((n = sendto(sockfd, &ack, sizeof(ack), 0, (struct sockaddr *)&addr, len)) == -1)
+                {
+                    printf("ACK send error!\n");
+                    exit(1);
+                }
+                printf("Received packet seq.num: %i data size: %i\n", packet.num, packet.len);
+                printf("%i %i as ACK sent\n", ack.num, ack.len);
+            }
+            // does not send ACK
+            else
+                printf("ACK lost!\n");
+
+            // only save packet if it is not a duplicate
+            if (packet.num != prev_pkt_seq)
+            {   
+                // if the last bit of the received string is the EoF
+                if (packet.data[packet.len-1] == '\0')
+                {
+                    end = 1;
+                    packet.len--;
+                }
+
+                // copy this packet
+                memcpy((buf+lseek), packet.data, packet.len);
+                lseek += packet.len;
+            }
+
+            // record down previous packet sequence
+            prev_pkt_seq = packet.num;
+        }
+    }
+
+    if ((fp = fopen ("received.jpg", "wt")) == NULL)
+    {
+        printf("File doesn't exit\n");
+        exit(0);
+    }
+
+    fwrite (buf, 1, lseek, fp); //write data into file
+    fclose(fp);
+    printf("A file has been successfully received!\nThe total data received is %d bytes\n", (int)lseek);
+}
