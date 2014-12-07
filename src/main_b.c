@@ -1,24 +1,87 @@
 #include "transport/transport.h"
+#include <pthread.h>
+
 
 
 void str_ser(int sockfd); // transmitting and receiving function
+void *transmitter(void *param);
+void *receiver(void *param);
+
+
+// Threads
+pthread_t thread_receiver, thread_transmitter;
+
+pthread_mutex_t fifo_counter = PTHREAD_MUTEX_INITIALIZER;
+
+// Global
+int stop_transmission;
+int created_fifo;
+int fifo[2];
+int packets_on_fifo;
+struct sockaddr_in processc_addr;
+int sockfd;
+
 
 int main(int argc, char *argv[])
 {
-    int sockfd;
-    struct sockaddr_in my_addr;
+    created_fifo = 0;
+    stop_transmission = 0;
+    int result;
+    packets_on_fifo = 0;
 
-    //create socket
-    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
-        printf("error in socket\n");
+    if(pthread_create(&thread_transmitter, NULL, transmitter, NULL) != 0){
+        printf("error ao criar thread de recepcao");
+        exit(0);
+    }
+    if(pthread_create(&thread_receiver, NULL, receiver, NULL) != 0){
+        printf("error ao criar thread de recepcao");
+        exit(0);
+    }
+
+    result = pipe(fifo);
+    if (result < 0){
+        perror("pipe");
         exit(1);
     }
 
-    my_addr.sin_family = AF_INET; // Address family; must be AF_INET
-    my_addr.sin_port = htons(B_PORT); // Internet Protocol (IP) port.
-    my_addr.sin_addr.s_addr = INADDR_ANY; // IP address in network byte order. INADDR_ANY is 0.0.0.0 meaning "all the addr"
-    // places nbyte null bytes in the string s
-    // this function will be used to set all the socket structures with null values
+
+    pthread_join(thread_receiver, NULL);
+    pthread_join(thread_transmitter,   NULL);
+    pthread_mutex_destroy(&fifo_counter);
+    // receive and ACK
+    //str_ser(insockfd);
+
+    return 0;
+}
+
+void *receiver(void *param){
+    // receive via socket from process c, and write on the fifo.
+
+    struct sockaddr_in my_addr, addr;
+    char packet_c[1032];
+    int result;    
+    socklen_t len = sizeof(struct sockaddr_in);
+
+
+/*
+    fifo = open("fifo_queue", O_WRONLY);
+    if (fifo == -1) {
+        printf("Cannot open fifo");
+        exit(0);
+    }
+
+    printf("fifo aberta \n");
+*/
+    //create socket
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
+        printf("error in socket\n");
+        exit(0);
+    }
+
+    my_addr.sin_family = AF_INET; 
+    my_addr.sin_port = htons(B_PORT); 
+    my_addr.sin_addr.s_addr = INADDR_ANY; 
+
     bzero(&(my_addr.sin_zero), 8);
 
     // binds the socket to all available interfaces
@@ -28,12 +91,113 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    // receive and ACK
-    str_ser(sockfd);
+    //str_ser(insockfd);
+    struct data_frame packet;
+    int i = 0;
+    int n;
+    while(stop_transmission == 0){
+        if ((n = recvfrom(sockfd, &packet, sizeof(packet), 0, (struct sockaddr *)&addr, &len)) == -1)
+        {
+            printf("Error when receiving\n");
+            exit(1);
+        }
 
+        // recebeu nada
+        else if (n == 0)
+        {
+            printf("Nothing received\n");
+        }
+
+        // chegou pacote
+        else
+        {
+            printf(BLUE "** Arrived a packet from process A. Seq.Num: %i Pkt.Len %i\n" RESET, packet.num, packet.len);
+            // Funcao Perde mensagem
+            if ((rand() % 100) < ERROR_RATE_B)
+            {
+                // perdeu pacote na entrada
+                printf(RED "**** Lost Packet on Entrance: Ops!.\n" RESET);
+            }
+            else 
+            {   
+                pthread_mutex_lock(&fifo_counter);
+                if(packets_on_fifo < FIFO_MAX_SIZE){
+                    result = write (fifo[1], &packet,sizeof(packet));
+                    packets_on_fifo++; 
+                    printf("**** Added packet to FIFO. Packets there: %i\n", packets_on_fifo);         
+                }
+                else{
+                    printf(RED "**** Couldnt Put packet on Fifo: FULL.\n" RESET);  
+                }
+                pthread_mutex_unlock(&fifo_counter);
+                
+                if (result < 1){
+                    perror ("write: ");
+                    exit (2);
+                }
+            }
+        }    
+    }
+    close(fifo);
     close(sockfd);
-    exit(0);
+    return 1;
 }
+
+
+void *transmitter(void *param) {
+    // Local variables
+    int res;
+    struct data_frame packet;
+    int n = 0;
+    int random;
+    int packet_on_buffer_sent = 1;
+    socklen_t len = sizeof(struct sockaddr_in);
+
+    processc_addr.sin_family = AF_INET; 
+    processc_addr.sin_port = htons(C_PORT); 
+    processc_addr.sin_addr.s_addr = INADDR_ANY; 
+
+    
+    while(stop_transmission == 0) {
+        // Expl:
+        // Le_a_Fifo()
+        // if (tinha um pacote la){
+        //      envia esse pacote pro processc
+        // }
+        // sleep(INTERVALO);
+
+        pthread_mutex_lock(&fifo_counter);
+        if(packets_on_fifo > 0){
+            n = read(fifo[0], &packet, sizeof(packet));
+            printf(GREEN "--- Lido da Fifo: Seq.Num: %i Pkt.Len: %i\n" RESET, packet.num, packet.len);
+            packet_on_buffer_sent = 0;
+            if (n < 1) {
+                printf(RED "ERROR Fifo empty\n" RESET);
+            } 
+            packets_on_fifo--;
+        }
+        pthread_mutex_unlock(&fifo_counter);
+        //
+        
+        if(packet_on_buffer_sent == 0){
+            printf(GREEN "-------- Sending packet to ProcessC\n" RESET);
+            if ((n = sendto(sockfd, &packet, sizeof(packet), 0, (struct sockaddr *)&processc_addr, len)) < 0)
+            {
+                printf(RED "ERROR: Nao pode enviar pacote para processoC!\n" RESET);
+                exit(1);
+            }
+            printf(GREEN "Sent.\n" RESET);
+            packet_on_buffer_sent = 1;
+        }
+        
+        random = rand() % 50;
+        usleep(TRANSMISSION_INTERVAL*random);
+        
+    }
+    printf("Encerrando o Transmissor...\n");
+    return 1;
+}
+
 
 // transmitting and receiving function
 void str_ser(int sockfd)

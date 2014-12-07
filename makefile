@@ -49,9 +49,9 @@ allprocesses: $(OBJS) $(USER_OBJS)
 #	gcc  -o "$(BIN_DIR)/processa" ./bin/main_a.o ./bin/lib/transport.o $(USER_OBJS) $(LIBS)
 #	gcc  -o "$(BIN_DIR)/processb" ./bin/main_b.o ./bin/lib/transport.o $(USER_OBJS) $(LIBS)
 #	gcc  -o "$(BIN_DIR)/processc" ./bin/main_c.o ./bin/lib/transport.o $(USER_OBJS) $(LIBS)
-	gcc  -o "$(BIN_DIR)/processa" ./bin/main_a.o  $(USER_OBJS) $(LIBS)
-	gcc  -o "$(BIN_DIR)/processb" ./bin/main_b.o  $(USER_OBJS) $(LIBS)
-	gcc  -o "$(BIN_DIR)/processc" ./bin/main_c.o  $(USER_OBJS) $(LIBS)
+	gcc  -o "$(BIN_DIR)/processa" ./bin/main_a.o  $(USER_OBJS) $(LIBS) -lpthread -lrt
+	gcc  -o "$(BIN_DIR)/processb" ./bin/main_b.o  $(USER_OBJS) $(LIBS) -lpthread -lrt
+	gcc  -o "$(BIN_DIR)/processc" ./bin/main_c.o  $(USER_OBJS) $(LIBS) -lpthread -lrt
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -65,7 +65,7 @@ processa: $(OBJS) $(USER_OBJS)
 processb: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc  -o "$(BIN_DIR)/processb" ./bin/main_b.o ./bin/lib/transport.o $(USER_OBJS) $(LIBS)
+	gcc  -o "$(BIN_DIR)/processb" ./bin/main_b.o ./bin/lib/transport.o $(USER_OBJS) $(LIBS) 
 	@echo 'Finished building target: $@'
 	@echo ' ':
 
@@ -91,7 +91,7 @@ clean:
 bin/%.o: src/%.c 
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -o $@ -c $<
+	gcc -o $@ -c $< -lrt -lpthread
 	@echo 'Finished building: $<'
 	@echo ' '
 #
