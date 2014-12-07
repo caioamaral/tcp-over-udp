@@ -31,26 +31,25 @@
 
 
 #define NEWFILE (O_WRONLY|O_CREAT|O_TRUNC)
-#define MYTCP_PORT 4950
-#define MYUDP_PORT 5350
 
-#define A_PORT 6533
-#define B_PORT 6245
-#define C_PORT 7337
+
+#define A_PORT 5672
+#define B_PORT 7475
+#define C_PORT 6391
 
 #define DATALEN 65
-#define BUFSIZE 6000000
+#define BUFSIZE 2000000
 
 #define FIFO_MAX_SIZE 50
 #define PAYLOAD_SIZE 1024
-#define NO_ACK_RATE 0 // 10%
-#define ERROR_RATE_B 10
+#define NO_ACK_RATE 3 // 10%
+#define ERROR_RATE_B 3
 #define WRONG_ACK_RATE 0 // 10%
 #define TRUE 1
 #define FALSE 0
 #define TIMEOUT 1
 #define PACKET_SIZE 1032
-#define TRANSMISSION_INTERVAL 10
+#define TRANSMISSION_INTERVAL 1
 
 
 

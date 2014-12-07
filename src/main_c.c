@@ -1,17 +1,21 @@
+// -----------------------------------------------------//
+//  Trabalho Redes 2014.2                               //
+//  Caio Amaral, Daniel Valenti e Adeline Feriaux-Rubin //
+
 #include "transport/transport.h"
 
 
-
-
-void str_ser(int sockfd); // transmitting and receiving function
+void receptor(int sockfd);
 
 struct sockaddr_in processa_addr;
+
 
 
 int main(int argc, char *argv[])
 {
     int sockfd;
     struct sockaddr_in my_addr;
+
 
     //create socket
     if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
@@ -29,22 +33,21 @@ int main(int argc, char *argv[])
 
     bzero(&(my_addr.sin_zero), 8);
 
-    // binds the socket to all available interfaces
+    // bind no socket
     if (bind(sockfd, (struct sockaddr *) &my_addr, sizeof(struct sockaddr)) == -1) {
         printf("error in binding\n");
         perror("socket error");
         exit(1);
     }
 
-    // receive and ACK
-    str_ser(sockfd);
+    // FUncao de recepcao e envio de ACK
+    receptor(sockfd);
 
     close(sockfd);
     exit(0);
 }
 
-// transmitting and receiving function
-void str_ser(int sockfd)
+void receptor(int sockfd)
 {   
     FILE *fp;
     char buf[BUFSIZE];
@@ -53,60 +56,46 @@ void str_ser(int sockfd)
     struct ack_frame ack;
     struct data_frame packet;
 
-    
 
     struct sockaddr_in addr;
     socklen_t len = sizeof(struct sockaddr_in);
 
-    printf("Start receiving...\n");
+    printf(GREEN"Comecando a Recepcao...\n"RESET);
 
-    srand(time(NULL)); // seed for random number
+    srand(time(NULL)); // pega um numero randomico
+
     uint32_t prev_pkt_seq = 1;
 
     while(!end)
     {
         /*************** RECEIVE MESSAGE ***************/
-        // if error in receiving
+        // if(erro na recepcao)
         if ((n = recvfrom(sockfd, &packet, sizeof(packet), 0, (struct sockaddr *)&addr, &len)) == -1)
         {
-            printf("Error when receiving\n");
+            printf(RED"Error when receiving\n"RESET);
             exit(1);
         }
 
-        // if nothing received
+        // if(nada_recebido)
         else if (n == 0)
         {
-            printf("Nothing received\n");
+            printf("Nothing received...\n");
         }
 
-        // if something received
+        // if(recebeu_dados)
         else
         {
-            // random number 0-99
-            // ACK lost
-            // send ACK
+            // if(Numero random(0-99) > taxa_de_erro)
+            // Enviar o Ack
             if ((rand() % 100) > NO_ACK_RATE)
             {
-                // tell sender what to expect next
+                // Montando o pacote ack, com o numero de sequencia esperado
                 if (packet.num == 0)
                     ack.num = packet.len + 1;
                 else
                     ack.num = packet.num + packet.len;
                 ack.len = packet.len;
 
-                // random number 0-99
-                // ACK damaged
-                // damage ACK by toggling ACK
-                /*
-                if ((rand() % 100) < WRONG_ACK_RATE)
-                {
-                    if (ack.num == 0)
-                        ack.num = 1;
-                    else
-                        ack.num = 0;
-                    printf("ACK damaged! ");
-                }
-                */
 
                 /*************** SEND ACK ***************/
                 if ((n = sendto(sockfd, &ack, sizeof(ack), 0, (struct sockaddr *)&processa_addr, len)) == -1)
@@ -114,40 +103,41 @@ void str_ser(int sockfd)
                     printf("ACK send error!\n");
                     exit(1);
                 }
-                printf("Received packet seq.num: %i data size: %i\n", packet.num, packet.len);
-                printf("%i %i as ACK sent\n", ack.num, ack.len);
+                printf(GREEN "\nPacote recebido! Seq.num: %i data size: %i\n" RESET, packet.num, packet.len);
+                printf("%i %i em ACK enviado\n", ack.num, ack.len);
             }
-            // does not send ACK
+            // nao envia ack propositalmente
             else
-                printf("ACK lost!\n");
+                printf(RED"ACK lost! Ops...\n"RESET);
 
-            // only save packet if it is not a duplicate
+            // salva o payload do patote se esse pacote nao eh duplicado
             if (packet.num != prev_pkt_seq)
             {   
-                // if the last bit of the received string is the EoF
+                // se possue o terminador no ultimo byte do payload
                 if (packet.data[packet.len-1] == '\0')
                 {
+                  // fim da transmissao
                     end = 1;
                     packet.len--;
                 }
 
-                // copy this packet
+                // copia este pacote pra memoria
                 memcpy((buf+lseek), packet.data, packet.len);
                 lseek += packet.len;
             }
 
-            // record down previous packet sequence
+            // atualiza o numero de sequencia
             prev_pkt_seq = packet.num;
         }
     }
-
-    if ((fp = fopen ("received.jpg", "wt")) == NULL)
+    // salva o arquivo com nome diferente
+    if ((fp = fopen ("out.txt", "wt")) == NULL)
     {
         printf("File doesn't exit\n");
         exit(0);
     }
 
-    fwrite (buf, 1, lseek, fp); //write data into file
+    fwrite (buf, 1, lseek, fp);
     fclose(fp);
-    printf("A file has been successfully received!\nThe total data received is %d bytes\n", (int)lseek);
+    printf(MAGENTA"A file has been successfully received!\nThe total data received is %d bytes\n"RESET, (int)lseek);
 }

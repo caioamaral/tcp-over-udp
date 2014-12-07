@@ -91,7 +91,7 @@ clean:
 bin/%.o: src/%.c 
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -o $@ -c $< -lrt -lpthread
+	gcc  -c $< -o $@ -lrt -lpthread
 	@echo 'Finished building: $<'
 	@echo ' '
 #
